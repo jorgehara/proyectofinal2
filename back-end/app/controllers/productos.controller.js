@@ -56,7 +56,7 @@ exports.create = (options) => {
     fs.writeFileSync(`${options.req.app.get('filesFolder')}/${options.req.files.imagen.name}`, options.req.files.imagen.data)
     updatedData['imagen'] = options.req.files.imagen.name
   }
-  if (typeof data.precio !== 'undefined') updatedData['precio'] = data.precio
+  if (typeof data.Precio !== 'undefined') updatedData['Precio'] = data.Precio
 
   if (typeof data.nombredelproducto !== 'undefined') updatedData['nombredelproducto'] = data.nombredelproducto
 
@@ -131,7 +131,7 @@ exports.createAsPromise = (options) => {
       fs.writeFileSync(`${options.req.app.get('filesFolder')}/${options.req.files.imagen.name}`, options.req.files.imagen.data)
       updatedData['imagen'] = options.req.files.imagen.name
     }
-    if (typeof data.precio !== 'undefined') updatedData['precio'] = data.precio
+    if (typeof data.Precio !== 'undefined') updatedData['Precio'] = data.Precio
 
     if (typeof data.nombredelproducto !== 'undefined') updatedData['nombredelproducto'] = data.nombredelproducto
 
@@ -376,7 +376,7 @@ exports.update = (options) => {
       fs.writeFileSync(`${options.req.app.get('filesFolder')}/${options.req.files.imagen.name}`, options.req.files.imagen.data)
       updatedData['imagen'] = options.req.files.imagen.name
     }
-    if (typeof data.precio !== 'undefined') updatedData['precio'] = data.precio
+    if (typeof data.Precio !== 'undefined') updatedData['Precio'] = data.Precio
 
     if (typeof data.nombredelproducto !== 'undefined') updatedData['nombredelproducto'] = data.nombredelproducto
 

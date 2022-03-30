@@ -8,11 +8,13 @@ exports.create = (options) => {
   const data = options.req ? options.req.body : options.data
   const updatedData = {}
 
+  if (data.Nombredelproducto === 'null') data.Nombredelproducto = null
   updatedData['Nombredelproducto'] = {}
   try {
     const Productos = require('../models/productos.model.js')
     let ReceivedNombredelproducto = typeof data.Nombredelproducto === 'string' ? JSON.parse(data.Nombredelproducto) : data.Nombredelproducto
     Nombredelproductoinfo = Array.isArray(ReceivedNombredelproducto) ? ReceivedNombredelproducto[0] : ReceivedNombredelproducto
+
     if (!Nombredelproductoinfo._id) {
       const NombredelproductoID = require('mongoose').Types.ObjectId()
       const Producto = new Productos({ ...Nombredelproductoinfo, _id: NombredelproductoID })
@@ -27,11 +29,13 @@ exports.create = (options) => {
 
   if (typeof data.cantidad !== 'undefined') updatedData['cantidad'] = data.cantidad
 
+  if (data.Precio === 'null') data.Precio = null
   updatedData['Precio'] = {}
   try {
     const Productos = require('../models/productos.model.js')
     let ReceivedPrecio = typeof data.Precio === 'string' ? JSON.parse(data.Precio) : data.Precio
     Precioinfo = Array.isArray(ReceivedPrecio) ? ReceivedPrecio[0] : ReceivedPrecio
+
     if (!Precioinfo._id) {
       const PrecioID = require('mongoose').Types.ObjectId()
       const Producto = new Productos({ ...Precioinfo, _id: PrecioID })
@@ -65,11 +69,13 @@ exports.createAsPromise = (options) => {
     const updatedData = {}
     if (data._id) updatedData._id = data._id
 
+    if (data.Nombredelproducto === 'null') data.Nombredelproducto = null
     updatedData['Nombredelproducto'] = {}
     try {
       const Productos = require('../models/productos.model.js')
       let ReceivedNombredelproducto = typeof data.Nombredelproducto === 'string' ? JSON.parse(data.Nombredelproducto) : data.Nombredelproducto
       Nombredelproductoinfo = Array.isArray(ReceivedNombredelproducto) ? ReceivedNombredelproducto[0] : ReceivedNombredelproducto
+
       if (!Nombredelproductoinfo._id) {
         const NombredelproductoID = require('mongoose').Types.ObjectId()
         const Producto = new Productos({ ...Nombredelproductoinfo, _id: NombredelproductoID })
@@ -84,11 +90,13 @@ exports.createAsPromise = (options) => {
 
     if (typeof data.cantidad !== 'undefined') updatedData['cantidad'] = data.cantidad
 
+    if (data.Precio === 'null') data.Precio = null
     updatedData['Precio'] = {}
     try {
       const Productos = require('../models/productos.model.js')
       let ReceivedPrecio = typeof data.Precio === 'string' ? JSON.parse(data.Precio) : data.Precio
       Precioinfo = Array.isArray(ReceivedPrecio) ? ReceivedPrecio[0] : ReceivedPrecio
+
       if (!Precioinfo._id) {
         const PrecioID = require('mongoose').Types.ObjectId()
         const Producto = new Productos({ ...Precioinfo, _id: PrecioID })
@@ -277,11 +285,13 @@ exports.update = (options) => {
     const data = options.req ? options.req.body : options.data
     const updatedData = {}
 
+    if (data.Nombredelproducto === 'null') data.Nombredelproducto = null
     updatedData['Nombredelproducto'] = {}
     try {
       const Productos = require('../models/productos.model.js')
       let ReceivedNombredelproducto = typeof data.Nombredelproducto === 'string' ? JSON.parse(data.Nombredelproducto) : data.Nombredelproducto
       Nombredelproductoinfo = Array.isArray(ReceivedNombredelproducto) ? ReceivedNombredelproducto[0] : ReceivedNombredelproducto
+
       if (!Nombredelproductoinfo._id) {
         const NombredelproductoID = require('mongoose').Types.ObjectId()
         const Producto = new Productos({ ...Nombredelproductoinfo, _id: NombredelproductoID })
@@ -296,11 +306,13 @@ exports.update = (options) => {
 
     if (typeof data.cantidad !== 'undefined') updatedData['cantidad'] = data.cantidad
 
+    if (data.Precio === 'null') data.Precio = null
     updatedData['Precio'] = {}
     try {
       const Productos = require('../models/productos.model.js')
       let ReceivedPrecio = typeof data.Precio === 'string' ? JSON.parse(data.Precio) : data.Precio
       Precioinfo = Array.isArray(ReceivedPrecio) ? ReceivedPrecio[0] : ReceivedPrecio
+
       if (!Precioinfo._id) {
         const PrecioID = require('mongoose').Types.ObjectId()
         const Producto = new Productos({ ...Precioinfo, _id: PrecioID })

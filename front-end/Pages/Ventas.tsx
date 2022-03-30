@@ -1,11 +1,15 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import AppBar from '@mui/material/AppBar'
 import green from '@mui/material/colors/green'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import Paper from '@mui/material/Paper'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
+import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import axios from 'axios'
 import React, { FunctionComponent } from 'react'
@@ -15,6 +19,8 @@ import AddDialog from '../components/Dialog/Dialog'
 import Field from '../components/Table/Field'
 import Table from '../components/Table/Table'
 import minimum from '../components/Themes/minimum.module.scss'
+import authHeaders from '../services/auth-header'
+import AuthService from '../services/auth.service'
 import { addVentas, editVentas, loadVentas, removeVenta, searchVentas } from '../store/actions/ventasActions'
 import { IVentasItem } from '../store/models'
 import { IState } from '../store/reducers/index'
@@ -29,9 +35,9 @@ const aptugotheme = createTheme({
 const Ventas: FunctionComponent = (props: any) => {
   const classes = baseClasses
   const initialDataVentas = {
-    Nombredelproducto: [],
+    Nombredelproducto: null,
     cantidad: '',
-    Precio: [],
+    Precio: null,
   }
   const [Ventasdata, setVentasData] = React.useState<any>(initialDataVentas)
   const handleVentasChange = (name: string) => (event: any) => {
@@ -43,6 +49,8 @@ const Ventas: FunctionComponent = (props: any) => {
   }
   const ventasData = useSelector((state: IState) => state.ventas)
   const theme = minimum
+  const [currentUser, setcurrentUser] = React.useState<any>(AuthService.getCurrentUser())
+  const [profileMenuAnchor, setprofileMenuAnchor] = React.useState<any>(null)
   const dispatch = useDispatch()
   let searchTimeout = null
   const searchForVentas = (event) => {
@@ -89,11 +97,11 @@ const Ventas: FunctionComponent = (props: any) => {
   }, [Ventasdata.Nombredelproducto])
   const [PrecioOptions, setPrecioOptions] = React.useState<{ label: String; value: String }[]>([])
   const typeInSearchPrecioProductos = (typedIn) => {
-    const searchOptions = { searchString: typedIn, searchField: 'precio', page: 1, limit: 10 }
+    const searchOptions = { searchString: typedIn, searchField: 'Precio', page: 1, limit: 10 }
     axios.get('http://127.0.0.1:4567/api/productos/search/', { params: searchOptions }).then((result) => {
       setPrecioOptions(
         result.data.docs.map((producto) => {
-          return { label: producto.precio, value: producto._id }
+          return { label: producto.Precio, value: producto._id }
         })
       )
     })
@@ -102,7 +110,7 @@ const Ventas: FunctionComponent = (props: any) => {
   React.useEffect(() => {
     if (!Ventasdata.Precio) return undefined
     const asArray = Array.isArray(Ventasdata.Precio) ? Ventasdata.Precio : [Ventasdata.Precio]
-    setPrecioValue(asArray.map((item) => ({ label: item.precio, value: item._id })))
+    setPrecioValue(asArray.map((item) => ({ label: item.Precio, value: item._id })))
   }, [Ventasdata.Precio])
   const [tableloadoptions, settableloadoptions] = React.useState<any>({
     page: 1,
@@ -120,12 +128,65 @@ const Ventas: FunctionComponent = (props: any) => {
     })
   }, [tableloadoptions])
 
+  if (!authHeaders()) {
+    props.history.push('/Login')
+  }
+
   // Theme selection
 
   return (
     <React.Fragment>
       <ThemeProvider theme={aptugotheme}>
         <div className={theme.pages}>
+          {currentUser && (
+            <React.Fragment>
+              <AppBar elevation={3} color="transparent" position="absolute" title="">
+                <Toolbar>
+                  <IconButton
+                    onClickCapture={(event) => {
+                      setprofileMenuAnchor(event.currentTarget)
+                    }}
+                    className={theme.profilePicture}
+                  >
+                    <picture>
+                      <img src={`/img/${currentUser.ProfilePic}`} alt={`/img/${currentUser.ProfilePic}`} />
+                    </picture>
+                  </IconButton>
+
+                  <Menu
+                    anchorEl={profileMenuAnchor}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'center',
+                    }}
+                    open={Boolean(profileMenuAnchor)}
+                    onClose={(params) => {
+                      setprofileMenuAnchor(null)
+                    }}
+                  >
+                    <div className={theme.menuProfileDetails}>
+                      {currentUser.FirstName} {currentUser.LastName}
+                    </div>
+
+                    <MenuItem>Profile</MenuItem>
+                    <MenuItem
+                      onClick={(params) => {
+                        AuthService.logout()
+                        props.history.push('/')
+                      }}
+                    >
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </Toolbar>
+              </AppBar>
+            </React.Fragment>
+          )}
+
           <div className={theme.mainarea}>
             <Container maxWidth="lg">
               <div className={theme.tableHeading}>
@@ -201,7 +262,7 @@ const Ventas: FunctionComponent = (props: any) => {
                         onType={typeInSearchPrecioProductos}
                         onChange={(newValue) =>
                           handleVentasChange('Precio')(
-                            newValue?.length ? newValue.map((item) => ({ _id: item.value !== 'new' ? item.value : null, precio: item.label })) : []
+                            newValue?.length ? newValue.map((item) => ({ _id: item.value !== 'new' ? item.value : null, Precio: item.label })) : []
                           )
                         }
                         loading={productosAutocompleteData.loadingStatus === 'loading'}
@@ -234,7 +295,7 @@ const Ventas: FunctionComponent = (props: any) => {
 
                       <Field value={(fieldData: any) => fieldData.cantidad} />
 
-                      <Field value={(fieldData: any) => (fieldData.Precio ? fieldData.Precio.precio : '')} />
+                      <Field value={(fieldData: any) => (fieldData.Precio ? fieldData.Precio.Precio : '')} />
                       <div className={classes.actionsArea}>
                         <IconButton
                           aria-label="edit"

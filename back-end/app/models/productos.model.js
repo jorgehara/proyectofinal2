@@ -18,7 +18,7 @@ const ProductosSchema = mongoose.Schema(
     },
     Empresa1: [mongoose.Schema.Types.ObjectId],
     imagen: String,
-    precio: Number,
+    Precio: Number,
     nombredelproducto: {
       type: String,
     },
@@ -34,14 +34,14 @@ ProductosSchema.virtual('Ventas', {
   ref: 'Ventas',
   localField: '_id',
   foreignField: 'Nombre_del_producto',
-  justOne: true,
+  justOne: false,
   type: '',
 })
 ProductosSchema.virtual('Ventas', {
   ref: 'Ventas',
   localField: '_id',
   foreignField: 'Precio',
-  justOne: true,
+  justOne: false,
   type: '',
 })
 
@@ -56,7 +56,7 @@ ProductosSchema.index({
   descripciongral: 'text',
   Empresa1: 'text',
   imagen: 'text',
-  precio: 'text',
+  Precio: 'text',
   nombredelproducto: 'text',
   cantidadcomprada: 'text',
 })

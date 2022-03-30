@@ -3,9 +3,10 @@ import { combineEpics, createEpicMiddleware } from 'redux-observable'
 import { IState } from '../reducers'
 import empresa1Epics from './empresa1Epics'
 import productosEpics from './productosEpics'
+import usersEpics from './usersEpics'
 import ventasEpics from './ventasEpics'
 
-export const rootEpic = combineEpics(empresa1Epics, productosEpics, ventasEpics)
+export const rootEpic = combineEpics(empresa1Epics, productosEpics, ventasEpics, usersEpics)
 
 export function buildFormData(formData, data, parentKey = null) {
   Object.keys(data).forEach((key) => {

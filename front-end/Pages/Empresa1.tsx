@@ -1,22 +1,24 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import AppBar from '@mui/material/AppBar'
 import green from '@mui/material/colors/green'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
-import ListItem from '@mui/material/ListItem'
-import ListItemText from '@mui/material/ListItemText'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import Paper from '@mui/material/Paper'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
+import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import React, { FunctionComponent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
 import AddDialog from '../components/Dialog/Dialog'
-import Sidebar from '../components/Sidebar/Sidebar'
 import Field from '../components/Table/Field'
 import Table from '../components/Table/Table'
 import minimum from '../components/Themes/minimum.module.scss'
+import authHeaders from '../services/auth-header'
+import AuthService from '../services/auth.service'
 import { addEmpresa1, editEmpresa1, loadEmpresa1, removeEmpresa, searchEmpresa1 } from '../store/actions/empresa1Actions'
 import { IEmpresa1Item } from '../store/models'
 import { IState } from '../store/reducers/index'
@@ -47,6 +49,8 @@ const Empresa1: FunctionComponent = (props: any) => {
   }
   const empresa1Data = useSelector((state: IState) => state.empresa1)
   const theme = minimum
+  const [currentUser, setcurrentUser] = React.useState<any>(AuthService.getCurrentUser())
+  const [profileMenuAnchor, setprofileMenuAnchor] = React.useState<any>(null)
   const dispatch = useDispatch()
   let searchTimeout = null
   const searchForEmpresa1 = (event) => {
@@ -89,31 +93,65 @@ const Empresa1: FunctionComponent = (props: any) => {
     })
   }, [tableloadoptions])
 
+  if (!authHeaders()) {
+    props.history.push('/Login')
+  }
+
   // Theme selection
 
   return (
     <React.Fragment>
       <ThemeProvider theme={aptugotheme}>
         <div className={theme.pages}>
-          <Sidebar color="Greens" open={true}>
-            <NavLink exact to="/" key="d59xDuqo">
-              <ListItem button className={classes.itemLink}>
-                <ListItemText>Home</ListItemText>
-              </ListItem>
-            </NavLink>
+          {currentUser && (
+            <React.Fragment>
+              <AppBar elevation={3} color="transparent" position="absolute" title="">
+                <Toolbar>
+                  <IconButton
+                    onClickCapture={(event) => {
+                      setprofileMenuAnchor(event.currentTarget)
+                    }}
+                    className={theme.profilePicture}
+                  >
+                    <picture>
+                      <img src={`/img/${currentUser.ProfilePic}`} alt={`/img/${currentUser.ProfilePic}`} />
+                    </picture>
+                  </IconButton>
 
-            <NavLink exact to="/Empresa1" key="6kr1WqN8">
-              <ListItem button className={classes.itemLink}>
-                <ListItemText>Empresa1</ListItemText>
-              </ListItem>
-            </NavLink>
+                  <Menu
+                    anchorEl={profileMenuAnchor}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'center',
+                    }}
+                    open={Boolean(profileMenuAnchor)}
+                    onClose={(params) => {
+                      setprofileMenuAnchor(null)
+                    }}
+                  >
+                    <div className={theme.menuProfileDetails}>
+                      {currentUser.FirstName} {currentUser.LastName}
+                    </div>
 
-            <NavLink exact to="/Productos" key="gaUqkAEI">
-              <ListItem button className={classes.itemLink}>
-                <ListItemText>Productos</ListItemText>
-              </ListItem>
-            </NavLink>
-          </Sidebar>
+                    <MenuItem>Profile</MenuItem>
+                    <MenuItem
+                      onClick={(params) => {
+                        AuthService.logout()
+                        props.history.push('/')
+                      }}
+                    >
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </Toolbar>
+              </AppBar>
+            </React.Fragment>
+          )}
+
           <div className={theme.mainarea}>
             <Container maxWidth="lg">
               <div className={theme.tableHeading}>

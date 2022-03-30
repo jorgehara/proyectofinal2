@@ -23,7 +23,8 @@
     "axios": "latest",
     "node_hash": "latest",
     "mongoose-paginate-v2": "latest",
-
+    "mongoose-autopopulate": "latest",
+    "nodemailer": "^6.4.11",
     "mongodb": "latest"
   }
 }

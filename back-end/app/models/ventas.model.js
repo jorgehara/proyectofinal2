@@ -3,9 +3,18 @@ const mongoosePaginate = require('mongoose-paginate-v2')
 
 const VentasSchema = mongoose.Schema(
   {
-    Nombredelproducto: mongoose.Schema.Types.ObjectId,
+    Nombredelproducto: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Productos',
+      autopopulate: true,
+    },
     cantidad: Number,
-    Precio: mongoose.Schema.Types.ObjectId,
+
+    Precio: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Productos',
+      autopopulate: true,
+    },
   },
   {
     timestamps: true,

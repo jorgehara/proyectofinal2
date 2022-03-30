@@ -2,14 +2,68 @@ import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import React, { FunctionComponent } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import Sidebar from '../components/Sidebar/Sidebar'
 import minimum from '../components/Themes/minimum.module.scss'
+import { loadEmpresa1, searchEmpresa1 } from '../store/actions/empresa1Actions'
+import { loadProductos, searchProductos } from '../store/actions/productosActions'
+import { loadUsers, searchUsers } from '../store/actions/usersActions'
+import { IState } from '../store/reducers/index'
 import baseClasses from './layout.module.scss'
 
 const Dashboard: FunctionComponent = (props: any) => {
   const classes = baseClasses
   const theme = minimum
+  const productosData = useSelector((state: IState) => state.productos)
+  const empresa1Data = useSelector((state: IState) => state.empresa1)
+  const usersData = useSelector((state: IState) => state.users)
+  const dispatch = useDispatch()
+  const [LoadfromUsersloadoptions, setLoadfromUsersloadoptions] = React.useState<any>({
+    page: 1,
+    populate: true,
+    limit: 25,
+    sort: { field: null, method: 'DESC' },
+    totalItems: 0,
+  })
+  const performLoadfromUsersload = (options) => {
+    dispatch(options.searchString ? searchUsers(options) : loadUsers(options))
+  }
+  React.useEffect(() => {
+    performLoadfromUsersload({
+      ...LoadfromUsersloadoptions,
+    })
+  }, [LoadfromUsersloadoptions])
+  const [LoadfromEmpresa1loadoptions, setLoadfromEmpresa1loadoptions] = React.useState<any>({
+    page: 1,
+    populate: true,
+    limit: 25,
+    sort: { field: null, method: 'DESC' },
+    totalItems: 0,
+  })
+  const performLoadfromEmpresa1load = (options) => {
+    dispatch(options.searchString ? searchEmpresa1(options) : loadEmpresa1(options))
+  }
+  React.useEffect(() => {
+    performLoadfromEmpresa1load({
+      ...LoadfromEmpresa1loadoptions,
+    })
+  }, [LoadfromEmpresa1loadoptions])
+  const [LoadfromProductosloadoptions, setLoadfromProductosloadoptions] = React.useState<any>({
+    page: 1,
+    populate: true,
+    limit: 25,
+    sort: { field: null, method: 'DESC' },
+    totalItems: 0,
+  })
+  const performLoadfromProductosload = (options) => {
+    dispatch(options.searchString ? searchProductos(options) : loadProductos(options))
+  }
+  React.useEffect(() => {
+    performLoadfromProductosload({
+      ...LoadfromProductosloadoptions,
+    })
+  }, [LoadfromProductosloadoptions])
 
   // Theme selection
 
@@ -20,18 +74,6 @@ const Dashboard: FunctionComponent = (props: any) => {
           <NavLink exact to="/" key="d59xDuqo">
             <ListItem button className={classes.itemLink}>
               <ListItemText>Home</ListItemText>
-            </ListItem>
-          </NavLink>
-
-          <NavLink exact to="/Empresa1" key="6kr1WqN8">
-            <ListItem button className={classes.itemLink}>
-              <ListItemText>Empresa1</ListItemText>
-            </ListItem>
-          </NavLink>
-
-          <NavLink exact to="/Productos" key="gaUqkAEI">
-            <ListItem button className={classes.itemLink}>
-              <ListItemText>Productos</ListItemText>
             </ListItem>
           </NavLink>
         </Sidebar>

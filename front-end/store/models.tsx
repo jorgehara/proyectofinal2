@@ -44,13 +44,13 @@ export interface IProductosItem {
   Empresa1: IEmpresa1Item
 
   imagen: string
-  precio: Number
+  Precio: Number
 
   nombredelproducto: string
   cantidadcomprada: Number
   // Productos - Ventas - Nombre_del_producto - Productos - nombre_del_producto
   Ventas: IVentasItem[]
-  // Productos - Ventas - Precio - Productos - precio
+  // Productos - Ventas - Precio - Productos - Precio
   Ventas: IVentasItem[]
 }
 
@@ -77,6 +77,34 @@ export interface IVentasItem {
 
 export interface IpaginatedVentas {
   docs: IVentasItem[]
+  totalDocs: number
+  offset: number
+  limit: number
+  totalPages: number
+  page: number
+  pagingCounter: number
+  hasPrevPage: boolean
+  hasNextPage: boolean
+  prevPage: number | null
+  nextPage: number | null
+}
+export interface IUsersItem {
+  _id?: String
+  createdAt: Date
+
+  FirstName: string
+
+  LastName: string
+
+  Email: string
+  Password: String
+
+  ProfilePic: string
+  Role: String
+}
+
+export interface IpaginatedUsers {
+  docs: IUsersItem[]
   totalDocs: number
   offset: number
   limit: number

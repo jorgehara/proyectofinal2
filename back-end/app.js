@@ -40,6 +40,54 @@ mongoose
 require('./app/routes/empresa1.routes.js')(app)
 require('./app/routes/productos.routes.js')(app)
 require('./app/routes/ventas.routes.js')(app)
+require('./app/routes/users.routes.js')(app)
+
+const nodemailer = require('nodemailer')
+var transport = {
+  host: '1',
+  port: '1',
+  auth: {
+    user: '1',
+    pass: '1',
+  },
+}
+
+var transporter = nodemailer.createTransport(transport)
+transporter.verify((error, success) => {
+  if (error) {
+    console.log(error)
+  } else {
+    console.log('All works fine, congratz!')
+  }
+})
+app.use(express.json())
+app.set('sendEmail', async function (emailDetails, extra) {
+  var mail = {
+    from: emailDetails.name,
+    to: emailDetails.email,
+    subject: emailDetails.subject,
+    html: emailDetails.message,
+  }
+
+  if (typeof addICal === 'function' && extra && extra.sendWithIcal) {
+    addICal(mail, extra)
+  }
+
+  transporter.sendMail(mail, (err, data) => {
+    if (err) {
+      return { msg: 'fail' }
+    } else {
+      return { msg: 'success' }
+    }
+  })
+})
+app.post('/api/sendEmail', (req, res, next) => {
+  const name = req.body.name
+  const email = req.body.email
+  const message = req.body.messageHtml
+  const subject = req.body.subject
+  res.json(app.get('sendEmail')({ name, email, message, subject }, req.body.extra))
+})
 
 app.use('/api/images', express.static('./uploads'))
 
