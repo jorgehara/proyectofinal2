@@ -73,7 +73,17 @@ const LoginPage: FunctionComponent = (props: any) => {
         <div className={theme.pages}>
           <Container className={theme.loginPage} maxWidth={false}>
             <Grid container alignItems="stretch">
-              <Grid item md={3}>
+              <div>
+                <NavLink to="/register" key="EbTc543U">
+                  voy a registrar
+                </NavLink>
+
+                <NavLink to="/home" key="31cmPF3u">
+                  voy a Home
+                </NavLink>
+              </div>
+
+              <Grid item xs={6} md={12}>
                 <Paper elevation={5} variant="elevation" classes={{ root: theme.paperLeft }}>
                   Welcome back
                 </Paper>

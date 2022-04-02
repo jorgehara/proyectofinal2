@@ -9,7 +9,6 @@ const Admin = React.lazy(() => import('./Pages/admin'))
 const RetrievePassword = React.lazy(() => import('./Pages/forgot'))
 const Register = React.lazy(() => import('./Pages/register'))
 const LoginPage = React.lazy(() => import('./Pages/login'))
-const Dashboard = React.lazy(() => import('./Pages/dashboard'))
 
 const App: React.FunctionComponent = (props: any) => {
   const routes = [
@@ -52,11 +51,6 @@ const App: React.FunctionComponent = (props: any) => {
       path: '/login',
       name: 'Login Page',
       component: LoginPage,
-    },
-    {
-      path: '/',
-      name: 'Dashboard',
-      component: Dashboard,
     },
   ]
 
