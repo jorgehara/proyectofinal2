@@ -4,6 +4,8 @@ import Button from '@mui/material/Button'
 import green from '@mui/material/colors/green'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
+import List from '@mui/material/List'
+import ListItemText from '@mui/material/ListItemText'
 import Paper from '@mui/material/Paper'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
@@ -109,9 +111,30 @@ const Register: FunctionComponent = (props: any) => {
           <Container className={theme.loginPage} maxWidth={false}>
             <Grid container alignItems="stretch">
               <Grid item md={3}>
-                <Paper elevation={5} variant="elevation" classes={{ root: theme.paperLeft }}>
-                  Welcome back
-                </Paper>
+                <div>
+                  <Paper elevation={5} variant="outlined" classes={{ root: theme.paperLeft }}>
+                    Bienvenido a Aptugo-Admin
+                  </Paper>
+                </div>
+
+                <div>
+                  <List>
+                    <ListItemText primary="-----------------------------------" />
+
+                    <ListItemText primary="Design it your way" />
+
+                    <ListItemText primary="-----------------------------------" />
+
+                    <ListItemText primary="50K+ professional design templates" />
+
+                    <ListItemText primary="50M+ creative assets for your projects" />
+
+                    <ListItemText primary="Brand Kits with custom colors, logos, and fonts" />
+                  </List>
+                  <picture>
+                    <img src="/img/homer1.jpeg" alt="/img/homer1.jpeg" />
+                  </picture>
+                </div>
               </Grid>
 
               <Grid item md={9}>
