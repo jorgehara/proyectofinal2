@@ -186,7 +186,7 @@ const LoginPage: FunctionComponent = (props: any) => {
                   <div className={theme.right} style={{ marginTop: '2rem' }}>
                     No tienes cuenta?
                     <a className={theme.greenText} href="/Register">
-                      Registrate!
+                      Registrate! borrar
                     </a>
                   </div>
                 </div>
@@ -200,7 +200,7 @@ const LoginPage: FunctionComponent = (props: any) => {
         <Grid container alignItems="stretch">
           <div className={theme.orange}>
             <NavLink to="/home" key="31cmPF3u">
-              voy a Home
+              voy a Home borrar
             </NavLink>
           </div>
 
