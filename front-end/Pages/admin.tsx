@@ -79,12 +79,6 @@ const Admin: FunctionComponent = (props: any) => {
         )}
 
         <Sidebar color="Greens" open={true}>
-          <NavLink exact to="/" key="Nyn4q9KZ">
-            <ListItem button className={classes.itemLink}>
-              <ListItemText>Admin</ListItemText>
-            </ListItem>
-          </NavLink>
-
           <NavLink exact to="/Empresa1" key="eFb6frbU">
             <ListItem button className={classes.itemLink}>
               <ListItemText>Empresa1</ListItemText>

@@ -33,7 +33,7 @@ const App: React.FunctionComponent = (props: any) => {
       component: Users,
     },
     {
-      path: '/admin',
+      path: '/',
       name: 'Admin',
       component: Admin,
     },
